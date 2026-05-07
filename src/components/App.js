@@ -1,93 +1,139 @@
-import React, { useState } from "react";
-import Menu from "./Menu";
-import './../styles/App.css';
+import React from "react";
+import { useState } from "react";
 
-function App() {
-  const menuData = [
-    {
-      id: 1,
-      title: "Pancakes",
-      category: "breakfast",
-      price: "$10",
-      image:
-        "https://images.unsplash.com/photo-1528207776546-365bb710ee93",
-    },
-    {
-      id: 2,
-      title: "Burger",
-      category: "lunch",
-      price: "$15",
-      image:
-        "https://images.unsplash.com/photo-1568901346375-23c9450c58cd",
-    },
-    {
-      id: 3,
-      title: "Milkshake",
-      category: "shakes",
-      price: "$8",
-      image:
-        "https://images.unsplash.com/photo-1577805947697-89e18249d767",
-    },
-    {
-      id: 4,
-      title: "Omelette",
-      category: "breakfast",
-      price: "$12",
-      image:
-        "https://images.unsplash.com/photo-1510693206972-df098062cb71",
-    },
-    {
-      id: 5,
-      title: "Pizza",
-      category: "lunch",
-      price: "$18",
-      image:
-        "https://images.unsplash.com/photo-1548365328-9f547fb0953b",
-    },
-  ];
+const MENU_DATA = [
+  {
+    id: 1,
+    title: "buttermilk pancakes",
+    category: "breakfast",
+    price: 15.99,
+    img: "./images/item-1.jpeg",
+    desc: `I'm baby woke mlkshk wolf bitters live-edge blue bottle, hammock freegan copper mug whatever cold-pressed `,
+  },
+  {
+    id: 2,
+    title: "diner double",
+    category: "lunch",
+    price: 13.99,
+    img: "./images/item-2.jpeg",
+    desc: `vaporware iPhone mumblecore selvage raw denim slow-carb leggings gochujang helvetica man braid jianbing. Marfa thundercats `,
+  },
+  {
+    id: 3,
+    title: "godzilla milkshake",
+    category: "shakes",
+    price: 6.99,
+    img: "./images/item-3.jpeg",
+    desc: `ombucha chillwave fanny pack 3 wolf moon street art photo booth before they sold out organic viral.`,
+  },
+  {
+    id: 4,
+    title: "country delight",
+    category: "breakfast",
+    price: 20.99,
+    img: "./images/item-4.jpeg",
+    desc: `Shabby chic keffiyeh neutra snackwave pork belly shoreditch. Prism austin mlkshk truffaut, `,
+  },
+  {
+    id: 5,
+    title: "egg attack",
+    category: "lunch",
+    price: 22.99,
+    img: "./images/item-5.jpeg",
+    desc: `franzen vegan pabst bicycle rights kickstarter pinterest meditation farm-to-table 90's pop-up `,
+  },
+  {
+    id: 6,
+    title: "oreo dream",
+    category: "shakes",
+    price: 18.99,
+    img: "./images/item-6.jpeg",
+    desc: `Portland chicharrones ethical edison bulb, palo santo craft beer chia heirloom iPhone everyday`,
+  },
+  {
+    id: 7,
+    title: "bacon overflow",
+    category: "breakfast",
+    price: 8.99,
+    img: "./images/item-7.jpeg",
+    desc: `carry jianbing normcore freegan. Viral single-origin coffee live-edge, pork belly cloud bread iceland put a bird `,
+  },
+  {
+    id: 8,
+    title: "american classic",
+    category: "lunch",
+    price: 12.99,
+    img: "./images/item-8.jpeg",
+    desc: `on it tumblr kickstarter thundercats migas everyday carry squid palo santo leggings. Food truck truffaut  `,
+  },
+  {
+    id: 9,
+    title: "quarantine buddy",
+    category: "shakes",
+    price: 16.99,
+    img: "./images/item-9.jpeg",
+    desc: `skateboard fam synth authentic semiotics. Live-edge lyft af, edison bulb yuccie crucifix microdosing.`,
+  },
+];
 
-  const [items, setItems] = useState(menuData);
+const Menu = () => {
+  const [list, setlist] = useState(MENU_DATA);
 
-  // Filter Items
-  const filterItems = (category) => {
-    const filteredItems = menuData.filter(
-      (item) => item.category === category
-    );
+  const onFilter = (category) => {
+    if (category === "all") {
+      setlist(MENU_DATA);
+    } else {
+      const matches = MENU_DATA.filter((i) => i.category === category);
 
-    setItems(filteredItems);
+      setlist(matches);
+    }
   };
-
   return (
-    <div id="main" className="container">
-      <h1>Menu</h1>
+    <div id="main">
+      <h1>Our Menu</h1>
 
-      <div className="buttons">
-        <button
-          id="filter-btn-1"
-          onClick={() => filterItems("breakfast")}
-        >
+      <div>
+        <button id="filter-btn-0" onClick={() => onFilter("all")}>
+          All
+        </button>
+        <button id="filter-btn-1" onClick={() => onFilter("breakfast")}>
           Breakfast
         </button>
-
-        <button
-          id="filter-btn-2"
-          onClick={() => filterItems("lunch")}
-        >
+        <button id="filter-btn-2" onClick={() => onFilter("lunch")}>
           Lunch
         </button>
-
-        <button
-          id="filter-btn-3"
-          onClick={() => filterItems("shakes")}
-        >
+        <button id="filter-btn-3" onClick={() => onFilter("shakes")}>
           Shakes
         </button>
       </div>
 
-      <Menu items={items} />
+      <div>
+        {list.map((i) => (
+          <div
+            data-test-id={
+              i.category === "breakfast"
+                ? "menu-item-breakfast"
+                : i.category === "lunch"
+                ? "menu-item-lunch"
+                : "menu-item-shakes"
+            }
+            key={i.id}
+          >
+            <div>
+              <img src={i.img} alt={i.title} />
+            </div>
+            <div>
+              <div>
+                <span>{i.title}</span>
+                <span>{i.price}</span>
+              </div>
+              <div>{i.desc}</div>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
-}
+};
 
-export default App;
-
+export default Menu;
